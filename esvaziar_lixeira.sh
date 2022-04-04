@@ -2,18 +2,23 @@
 function esvaziarLixeira {
 	rm -rfv ~/.local/share/Trash/files/*
 }
-clear
-echo 'Tem certeza que deseja remover todo o conteúdo da lixeira?'
-read -p 'S/N: ' OPCAO
-clear
-if [ "$OPCAO" = 'S' -o "$OPCAO" = 's' ]
+function sairPrograma {
+	dialog --infobox 'Saíndo do programa...' 0 0
+	sleep $TEMPO_SONO
+	clear
+	exit
+}
+declare -r TEMPO_SONO=1
+dialog --title "Esvaziar lixeira" --yesno "Tem certeza que deseja remover todo o conteúdo da lixeira?" 0 0
+if [ $? = 0 ]
 then
-	echo 'Removendo todo o conteúdo da lixeira...'
-	sleep 1
+	dialog --infobox 'Removendo todo o conteúdo da lixeira...' 0 0
+	sleep $TEMPO_SONO
 	esvaziarLixeira
 	clear
-	echo 'Concluído'
+	dialog --infobox 'Concluído!' 0 0
+	sleep $TEMPO_SONO
+	sairPrograma
 else
-	echo 'Saíndo do programa...'
-	sleep 1
+	sairPrograma
 fi
