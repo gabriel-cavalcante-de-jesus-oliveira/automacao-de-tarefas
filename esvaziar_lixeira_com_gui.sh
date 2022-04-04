@@ -11,7 +11,7 @@ function sairPrograma {
 	clear
 	exit
 }
-declare -r TEMPO_SONO=1
+declare -r TEMPO_SONO=1 # a unidade de tempo é o segundo
 #retorna código de retorno para a variável especial "$?"
 dialog --title 'Esvaziar lixeira' --yesno 'Tem certeza que deseja remover todo o conteúdo da lixeira?' 0 0
 if [ $? = 0 ] # 0 para "sim" e 1 para "não"
