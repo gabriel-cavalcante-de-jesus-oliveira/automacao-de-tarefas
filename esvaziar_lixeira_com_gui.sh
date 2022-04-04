@@ -16,6 +16,7 @@ then
 	sleep $TEMPO_SONO
 	esvaziarLixeira
 	dialog --textbox /home/gabriel/.log_de_arquivos_removidos.txt 0 0
+	rm /home/gabriel/.log_de_arquivos_removidos.txt # exclui o arquivo quando não for mais necessário
 	clear
 	dialog --infobox 'Concluído!' 0 0
 	sleep $TEMPO_SONO
@@ -23,5 +24,3 @@ then
 else
 	sairPrograma
 fi
-
-rm /home/gabriel/.log_de_arquivos_removidos.txt
