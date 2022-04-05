@@ -5,7 +5,7 @@ function verificaPacotes {
 	TEM_TREE=1
 	#verifica se o pacote "dialog" está instalado
 	dialog --version 1> /dev/null 2> /dev/null
-	if [ $? = 127 ]; then
+	if [ $? = 127 ]; then # "$?" armazena o código de retorno do último comando utilizado
 		echo "Pacote \"dialog\" necessário!"
 		TEM_DIALOG=0 # false
 	fi
@@ -34,18 +34,17 @@ function logArquivosRemovidos { # cria log de arquivos removidos
 function sairPrograma {
 	# altura e largura, respectivamente, se for 0 0, o "dialog" ajusta dinamicamente
 	dialog --infobox "Saíndo do programa..." 0 0
-	sleep $TEMPO_SONO
+	sleep $TEMPO_SONO # em segundos
 	clear
 	exit
 }
 declare -r TEMPO_SONO=1
 declare -r CAMINHO_LIXEIRA="$HOME/.local/share/Trash/files"
 verificaPacotes
-#retorna código de retorno para a variável especial "$?"
 dialog --title "Esvaziar lixeira" --yesno "Tem certeza que deseja remover o conteúdo da lixeira?" 0 0
 if [ $? = 0 ]; then # 0 para "sim" e 1 para "não"
 	dialog --infobox "Removendo o conteúdo da lixeira..." 0 0
-	sleep $TEMPO_SONO # em segundos
+	sleep $TEMPO_SONO
 	logArquivosRemovidos # deve ser invocada antes da função abaixo
 	esvaziarLixeira
 	cd $HOME
