@@ -1,36 +1,41 @@
 #!/bin/bash
 clear
-
-declare -r TEMPO_SONO=1 # declaração de constante
-
-if [ ! -e "/home/gabriel/.backup" ] # verifica se o diretório não existe
+declare -r TEMPO_SONO=2
+if [ ! -e "/home/gabriel/.backup" ]
 then
     mkdir "/home/gabriel/.backup"
 fi
-
 function removeBackupAntigo {
-    echo "Removendo backup antigo..."
-    sleep $TEMPO_SONO # a unidade de tempo é o segundo
-    rm -rff "$/home/gabriel/.backup"
+	dialog --infobox 'Removendo backup antigo...' 0 0
+    sleep $TEMPO_SONO
+    rm -rf "$/home/gabriel/.backup"
 }
-
 function realizaNovoBackup {
-    echo "Realizando novo backup..."
+	dialog --infobox 'Realizando novo backup...' 0 0
 	sleep $TEMPO_SONO
-    cp -rvf "/home/gabriel/Área\ de\ trabalho/quinto_semestre_de_computacao/*" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Documentos" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Downloads" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Imagens" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Modelos" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Música" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Público" "/home/gabriel/.backup"
-    cp -rvf "/home/gabriel/Vídeos" "/home/gabriel/.backup"
+	cp -rf "/home/gabriel/Área de trabalho/quinto_semestre_de_computacao" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Documentos" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Downloads" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Imagens" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Modelos" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Música" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Público" "/home/gabriel/.backup"
+    cp -rf "/home/gabriel/Vídeos" "/home/gabriel/.backup"
+	cp -rf "/home/gabriel/temp" "/home/gabriel/.backup"
+	tree ~/.backup 1> ~/.log_de_arquivos_copiados.txt
+	dialog --textbox ~/.log_de_arquivos_copiados.txt 0 0
+	rm -f ~/.log_de_arquivos_copiados.txt
     sleep $TEMPO_SONO
 }
-
+function sairPrograma {
+	dialog --infobox 'Saíndo do programa' 0 0
+	sleep $TEMPO_SONO
+	clear
+	exit
+}
 removeBackupAntigo
 realizaNovoBackup
-clear
-echo "concluido"
-
+dialog --infobox 'Concluído!' 0 0
+sleep $TEMPO_SONO
+sairPrograma
 exit
