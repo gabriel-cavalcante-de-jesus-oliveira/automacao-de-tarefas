@@ -2,6 +2,28 @@
 # é necessário ter o pacote "dialog" instalado na máquina (rode "sudo apt install dialog -y")
 # é necessário ter o pacote "tree" instalado na máquina (rode "sudo apt install tree -y")
 # o "dialog" é utilizado para criação de caixas de diálogo do tipo TUI "Text User Interface"
+function verificaPacotes { # verifica se os pacotes "dialog" e "tree" estão instalados
+	TEM_DIALOG=1
+	TEM_TREE=1
+	#verifica se o pacote "dialog" está instalado
+	dialog --version 1> /dev/null 2> /dev/null
+	if [ $? = 127 ]; then
+		echo "Pacote \"dialog\" necessário!"
+		TEM_DIALOG=0 # false
+	fi
+	# verifica se o pacote "tree" está instalado
+	tree --version 1> /dev/null 2> /dev/null
+	if [ $? = 127 ]; then
+		echo "Pacote \"tree\" necessário!"
+		TEM_TREE=0 # false
+	fi
+	if [ $TEM_DIALOG -eq 0 ]; then
+		exit
+	fi
+	if [ $TEM_TREE -eq 0; then
+		exit
+	fi
+}
 function esvaziarLixeira {
 	# não é necessário acessar o caminho da lixeira novamente, pois a função abaixo já o faz
 	rm -rf *
@@ -20,6 +42,7 @@ function sairPrograma {
 declare -r TEMPO_SONO=1
 declare -r CAMINHO_LIXEIRA="/home/gabriel/.local/share/Trash/files" # tem que ser o caminho absoluto
 declare -r CAMINHO_HOME="/home/gabriel"
+verificaPacotes
 #retorna código de retorno para a variável especial "$?"
 dialog --title 'Esvaziar lixeira' --yesno 'Tem certeza que deseja remover todo o conteúdo da lixeira?' 0 0
 if [ $? = 0 ] # 0 para "sim" e 1 para "não"
