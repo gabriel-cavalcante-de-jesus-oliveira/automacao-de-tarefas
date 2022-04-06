@@ -16,10 +16,7 @@ function verificaPacotes {
 		TEM_TREE=0
 	fi
 	# sai do programa
-	if [ $TEM_DIALOG -eq 0 ]; then
-		exit
-	fi
-	if [ $TEM_TREE -eq 0; then
+	if [ $TEM_DIALOG -eq 0 -o $TEM_TREE -eq 0 ]; then
 		exit
 	fi
 }
