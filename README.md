@@ -1,3 +1,3 @@
 # Automação de tarefas rotineiras com Shell Script
 
-**Este repositório contém alguns scripts simples para a automação de tarefas rotineiras.**
+**Scripts simples para a automação de tarefas rotineiras.**
