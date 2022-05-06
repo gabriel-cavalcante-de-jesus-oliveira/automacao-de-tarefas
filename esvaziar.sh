@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function verifica_se_tem_lixo {
+	QUANTIDADE_ITENS=$(ls ~/.local/share/Trash/files | wc -l)
+	if [ $QUANTIDADE_ITENS == 0 ]; then # vazio
+		kdialog --title "Esvaziamento" --msgbox "Sem itens na lixeira" &
+		exit
+	fi
+}
+
 function log_de_arquivos_removidos {
 	cd $LIXEIRA
 	du -sh . 1> ~/Área\ de\ Trabalho/arquivos-removidos.txt
@@ -12,6 +20,8 @@ function remove_itens_lixeira {
 }
 
 LIXEIRA=~/.local/share/Trash/files
+
+verifica_se_tem_lixo
 
 log_de_arquivos_removidos &&
 remove_itens_lixeira &&
