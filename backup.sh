@@ -1,14 +1,16 @@
 #!/bin/bash
 
-if [ ! -d ~/.backup ]; then
-	mkdir ~/.backup
-fi
+function cria_diretorio {
+	if [ ! -d ~/.backup ]; then
+		mkdir ~/.backup
+	fi
+}
 
 function remove_backup_antigo {
 	rm -rf ~/.backup/*
 }
 
-function realiza_novo_backup {
+function novo_backup {
 	cd ~
 
 	# diretórios/arquivos ocultos
@@ -28,16 +30,17 @@ function realiza_novo_backup {
 	cp -r Vídeos .backup
 }
 
-function gera_log_de_arquivos_copiados {
+function log_de_arquivos_copiados {
 	cd ~/Área\ de\ Trabalho
-	du -sh ~/.backup 1> log-de-arquivos-copiados.txt
-	echo "" 1>> log-de-arquivos-copiados.txt
-	tree ~/.backup 1>> log-de-arquivos-copiados.txt
+	du -sh ~/.backup 1> arquivos-copiados.txt
+	echo -ne "\n" 1>> arquivos-copiados.txt
+	tree ~/.backup 1>> arquivos-copiados.txt
 }
 
+cria_diretorio &&
 remove_backup_antigo &&
-realiza_novo_backup &&
-gera_log_de_arquivos_copiados &&
+novo_backup &&
+log_de_arquivos_copiados &&
 (kdialog --title "Backup" --msgbox "Sucesso!" &) ||
 (kdialog --title "Backup" --msgbox "Fracasso!" &)
 exit
