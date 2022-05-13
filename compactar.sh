@@ -1,14 +1,5 @@
 #!/bin/bash
 
-function progresso {
-	cd ~/Área\ de\ Trabalho
-	if [ ! -d backup ]; then
-		mkdir backup
-	else
-		rmdir backup
-	fi
-}
-
 function compacta {
 	cd ~
 	tar -czf Área\ de\ Trabalho/backup.tar.gz .backup
@@ -16,9 +7,9 @@ function compacta {
 
 TITULO="Compactar"
 
-progresso &&
+kdialog --passivepopup "Compactando..." 3
+
 compacta &&
-progresso &&
-(kdialog --title $TITULO --msgbox "Sucesso!" &) ||
-(kdialog --title $TITULO --msgbox "Fracasso!" &)
+(kdialog --title $TITULO --msgbox "Operação realizada com sucesso!" &) ||
+(kdialog --title $TITULO --error "Não foi possível realizar a operação!" &)
 exit

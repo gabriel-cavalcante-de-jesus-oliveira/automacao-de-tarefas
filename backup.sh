@@ -1,14 +1,5 @@
 #!/bin/bash
 
-function progresso {
-	cd ~/Área\ de\ Trabalho
-	if [ ! -d backup ]; then
-		mkdir backup
-	else
-		rmdir backup
-	fi
-}
-
 function cria_diretorio {
 	if [ ! -d ~/.backup ]; then
 		mkdir ~/.backup
@@ -49,12 +40,12 @@ function log_de_arquivos_copiados {
 
 TITULO="Copiar"
 
-progresso &&
+kdialog --passivepopup "Copiando..." 3
+
 cria_diretorio &&
 remove_backup_antigo &&
 novo_backup &&
 log_de_arquivos_copiados &&
-progresso &&
-(kdialog --title $TITULO --msgbox "Sucesso!" &) ||
-(kdialog --title $TITULO --msgbox "Fracasso!" &)
+(kdialog --title $TITULO --msgbox "Operação realizada com sucesso!" &) ||
+(kdialog --title $TITULO --error "Não foi possível realizar a operação!" &)
 exit

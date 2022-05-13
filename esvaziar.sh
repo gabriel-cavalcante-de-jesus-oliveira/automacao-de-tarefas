@@ -28,6 +28,6 @@ verifica_se_tem_lixo
 
 log_de_arquivos_removidos &&
 remove_itens_lixeira &&
-(kdialog --title $TITULO --msgbox "Sucesso!" &) ||
-(kdialog --title $TITULO --msgbox "Fracasso!" &)
+(kdialog --title $TITULO --msgbox "Operação realizada com sucesso!" &) ||
+(kdialog --title $TITULO --error "Não foi possível realizar a operação!" &)
 exit
