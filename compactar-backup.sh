@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function compacta {
-	cd ~/Área\ de\ Trabalho
-	zip -rq0 backup ~/.backup
+	cd ~
+	zip -rq0 Área\ de\ Trabalho/backup .backup
 }
 
 function remove_arquivo_antigo {
@@ -20,7 +20,8 @@ function verifica_atualizacao {
 			fi
 			kdialog --passivepopup "Compactando..." 3
 			compacta
-			cat .logs/backup.txt 1> .logs/.copia-backup.txt
+			cd ~/Área\ de\ Trabalho/.logs
+			cat backup.txt 1> .copia-backup.txt
 		else
 			kdialog --title $TITULO --msgbox "Nenhuma atualização" &
 			exit
@@ -51,9 +52,8 @@ function log_de_compactacao {
 
 TITULO="Compactar"
 
-verifica_atualizacao &&
-log_de_compactacao &&
-(kdialog --title $TITULO --msgbox "Operação realizada com sucesso!" &) ||
-(kdialog --title $TITULO --error "Não foi possível realizar a operação!" &)
+verifica_atualizacao
+log_de_compactacao
+kdialog --title $TITULO --msgbox "Finalizado" &
 
 exit

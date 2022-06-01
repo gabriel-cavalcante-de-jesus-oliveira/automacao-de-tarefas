@@ -34,9 +34,8 @@ LIXEIRA=~/.local/share/Trash/files
 TITULO="Esvaziar lixeira"
 
 verifica_se_tem_lixo
+log_de_arquivos_removidos
+remove_itens_lixeira
+kdialog --title $TITULO --msgbox "Finalizado" &
 
-log_de_arquivos_removidos &&
-remove_itens_lixeira &&
-(kdialog --title $TITULO --msgbox "Operação realizada com sucesso!" &) ||
-(kdialog --title $TITULO --error "Não foi possível realizar a operação!" &)
 exit
