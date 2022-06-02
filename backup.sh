@@ -288,7 +288,7 @@ function novo_backup {
 	fi
 
 	if [ $ATUALIZACAO -eq 11 ]; then
-		kdialog --title $TITULO --msgbox "Nenhuma atualização" &
+		kdialog --title "$TITULO" --msgbox "Nenhuma atualização" &
 		exit
 	fi
 }
@@ -316,6 +316,6 @@ kdialog --passivepopup "Copiando..." 3
 cria_diretorio_de_backup
 novo_backup
 log_de_backup
-kdialog --title $TITULO --msgbox "Finalizado" &
+kdialog --title "$TITULO" --msgbox "Finalizado" &
 
 exit

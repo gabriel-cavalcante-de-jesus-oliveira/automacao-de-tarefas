@@ -23,7 +23,7 @@ function verifica_atualizacao {
 			cd ~/Área\ de\ Trabalho/.logs
 			cat backup.txt 1> .copia-backup.txt
 		else
-			kdialog --title $TITULO --msgbox "Nenhuma atualização" &
+			kdialog --title "$TITULO" --msgbox "Nenhuma atualização" &
 			exit
 		fi
 	else
@@ -54,6 +54,6 @@ TITULO="Compactar"
 
 verifica_atualizacao
 log_de_compactacao
-kdialog --title $TITULO --msgbox "Finalizado" &
+kdialog --title "$TITULO" --msgbox "Finalizado" &
 
 exit
