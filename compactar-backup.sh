@@ -2,7 +2,7 @@
 
 function compacta {
 	cd ~
-	zip -rq0 Área\ de\ Trabalho/backup .backup
+	zip -rq9 Área\ de\ Trabalho/backup .backup
 }
 
 function remove_arquivo_antigo {
