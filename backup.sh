@@ -2,17 +2,16 @@
 
 function cria_diretorio_de_backup {
 	cd ~
-	if [ ! -e .backup ]; then
-		mkdir .backup
+	if [ ! -e $BACKUP ]; then
+		mkdir $BACKUP
 	fi
 }
 
 function novo_backup {
 	cd ~
-	ATUALIZACAO=0
+	SEM_ATUALIZACAO=0
 
 	## Coletânia ##
-
 	# .gitconfig
 	# .ssh
 	# Documentos
@@ -26,6 +25,7 @@ function novo_backup {
 	# Público
 
 	## Caminhos relativos ##
+	BACKUP=~/.backup
 	GITCONFIG=~/.gitconfig
 	SSH=~/.ssh
 	DOCUMENTOS=~/Documentos
@@ -39,255 +39,255 @@ function novo_backup {
 	PUBLICO=~/Público
 
 	if [ -e $GITCONFIG ]; then
-		if [ ! -e .backup/.gitconfig ]; then
-			cp -rf $GITCONFIG .backup
+		if [ ! -e $BACKUP/.gitconfig ]; then
+			cp -rf $GITCONFIG $BACKUP
 		else
-			DIFERENCA=$(diff $GITCONFIG .backup/.gitconfig)
+			DIFERENCA=$(diff $GITCONFIG $BACKUP/.gitconfig)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -f .backup/.gitconfig
-				cp -rf $GITCONFIG .backup
+				rm -f $BACKUP/.gitconfig
+				cp -rf $GITCONFIG $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/$GITCONFIG ]; then
-			rm -f .backup/$GITCONFIG
+		if [ -e $BACKUP/$GITCONFIG ]; then
+			rm -f $BACKUP/$GITCONFIG
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $SSH | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/.ssh ]; then
-			cp -rf $SSH .backup
+		if [ ! -e $BACKUP/.ssh ]; then
+			cp -rf $SSH $BACKUP
 		else
-			DIFERENCA=$(diff -r $SSH .backup/.ssh)
+			DIFERENCA=$(diff -r $SSH $BACKUP/.ssh)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/.ssh
-				cp -rf $SSH .backup
+				rm -rf $BACKUP/.ssh
+				cp -rf $SSH $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/.ssh ]; then
-			QUANTIDADE_ITENS=$(ls .backup/.ssh | wc -l)
+		if [ -e $BACKUP/.ssh ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/.ssh | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/.ssh
+				rm -rf $BACKUP/.ssh
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $DOCUMENTOS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Documentos ]; then
-			cp -rf $DOCUMENTOS .backup
+		if [ ! -e $BACKUP/Documentos ]; then
+			cp -rf $DOCUMENTOS $BACKUP
 		else
-			DIFERENCA=$(diff -r $DOCUMENTOS .backup/Documentos)
+			DIFERENCA=$(diff -r $DOCUMENTOS $BACKUP/Documentos)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Documentos
-				cp -rf $DOCUMENTOS .backup
+				rm -rf $BACKUP/Documentos
+				cp -rf $DOCUMENTOS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Documentos ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Documentos | wc -l)
+		if [ -e $BACKUP/Documentos ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Documentos | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Documentos
+				rm -rf $BACKUP/Documentos
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $DOWNLOADS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Downloads ]; then
-			cp -rf $DOWNLOADS .backup
+		if [ ! -e $BACKUP/Downloads ]; then
+			cp -rf $DOWNLOADS $BACKUP
 		else
-			DIFERENCA=$(diff -r $DOWNLOADS .backup/Downloads)
+			DIFERENCA=$(diff -r $DOWNLOADS $BACKUP/Downloads)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Downloads
-				cp -rf $DOWNLOADS .backup
+				rm -rf $BACKUP/Downloads
+				cp -rf $DOWNLOADS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Downloads ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Downloads | wc -l)
+		if [ -e $BACKUP/Downloads ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Downloads | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Downloads
+				rm -rf $BACKUP/Downloads
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $IMAGENS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Imagens ]; then
-			cp -rf $IMAGENS .backup
+		if [ ! -e $BACKUP/Imagens ]; then
+			cp -rf $IMAGENS $BACKUP
 		else
-			DIFERENCA=$(diff -r $IMAGENS .backup/Imagens)
+			DIFERENCA=$(diff -r $IMAGENS $BACKUP/Imagens)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Imagens
-				cp -rf $IMAGENS .backup
+				rm -rf $BACKUP/Imagens
+				cp -rf $IMAGENS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Imagens ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Imagens | wc -l)
+		if [ -e $BACKUP/Imagens ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Imagens | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Imagens
+				rm -rf $BACKUP/Imagens
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $MODELOS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Modelos ]; then
-			cp -rf $MODELOS .backup
+		if [ ! -e $BACKUP/Modelos ]; then
+			cp -rf $MODELOS $BACKUP
 		else
-			DIFERENCA=$(diff -r $MODELOS .backup/Modelos)
+			DIFERENCA=$(diff -r $MODELOS $BACKUP/Modelos)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Modelos
-				cp -rf $MODELOS .backup
+				rm -rf $BACKUP/Modelos
+				cp -rf $MODELOS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Modelos ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Modelos | wc -l)
+		if [ -e $BACKUP/Modelos ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Modelos | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Modelos
+				rm -rf $BACKUP/Modelos
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $MUSICA | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Música ]; then
-			cp -rf $MUSICA .backup
+		if [ ! -e $BACKUP/Música ]; then
+			cp -rf $MUSICA $BACKUP
 		else
-			DIFERENCA=$(diff -r $MUSICA .backup/Música)
+			DIFERENCA=$(diff -r $MUSICA $BACKUP/Música)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Música
-				cp -rf $MUSICA .backup
+				rm -rf $BACKUP/Música
+				cp -rf $MUSICA $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Música ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Música | wc -l)
+		if [ -e $BACKUP/Música ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Música | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Música
+				rm -rf $BACKUP/Música
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $NETBEANSPROJECTS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/NetBeansProjects ]; then
-			cp -rf $NETBEANSPROJECTS .backup
+		if [ ! -e $BACKUP/NetBeansProjects ]; then
+			cp -rf $NETBEANSPROJECTS $BACKUP
 		else
-			DIFERENCA=$(diff -r $NETBEANSPROJECTS .backup/NetBeansProjects)
+			DIFERENCA=$(diff -r $NETBEANSPROJECTS $BACKUP/NetBeansProjects)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/NetBeansProjects
-				cp -rf $NETBEANSPROJECTS .backup
+				rm -rf $BACKUP/NetBeansProjects
+				cp -rf $NETBEANSPROJECTS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/NetBeansProjects ]; then
-			QUANTIDADE_ITENS=$(ls .backup/NetBeansProjects | wc -l)
+		if [ -e $BACKUP/NetBeansProjects ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/NetBeansProjects | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/NetBeansProjects
+				rm -rf $BACKUP/NetBeansProjects
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $GERAIS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/gerais ]; then
-			cp -rf $GERAIS .backup
+		if [ ! -e $BACKUP/gerais ]; then
+			cp -rf $GERAIS $BACKUP
 		else
-			DIFERENCA=$(diff -r $GERAIS .backup/gerais)
+			DIFERENCA=$(diff -r $GERAIS $BACKUP/gerais)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/gerais
-				cp -rf $GERAIS .backup
+				rm -rf $BACKUP/gerais
+				cp -rf $GERAIS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/gerais ]; then
-			QUANTIDADE_ITENS=$(ls .backup/gerais | wc -l)
+		if [ -e $BACKUP/gerais ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/gerais | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/gerais
+				rm -rf $BACKUP/gerais
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $VIDEOS | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Vídeos ]; then
-			cp -rf $VIDEOS .backup
+		if [ ! -e $BACKUP/Vídeos ]; then
+			cp -rf $VIDEOS $BACKUP
 		else
-			DIFERENCA=$(diff -r $VIDEOS .backup/Vídeos)
+			DIFERENCA=$(diff -r $VIDEOS $BACKUP/Vídeos)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Vídeos
-				cp -rf $VIDEOS .backup
+				rm -rf $BACKUP/Vídeos
+				cp -rf $VIDEOS $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Vídeos ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Vídeos | wc -l)
+		if [ -e $BACKUP/Vídeos ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Vídeos | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Vídeos
+				rm -rf $BACKUP/Vídeos
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
 	QUANTIDADE_ITENS=$(ls $PUBLICO | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
-		if [ ! -e .backup/Público ]; then
-			cp -rf $PUBLICO .backup
+		if [ ! -e $BACKUP/Público ]; then
+			cp -rf $PUBLICO $BACKUP
 		else
-			DIFERENCA=$(diff -r $PUBLICO .backup/Público)
+			DIFERENCA=$(diff -r $PUBLICO $BACKUP/Público)
 			if [ "$DIFERENCA" != "" ]; then
-				rm -rf .backup/Público
-				cp -rf $PUBLICO .backup
+				rm -rf $BACKUP/Público
+				cp -rf $PUBLICO $BACKUP
 			else
-				ATUALIZACAO=$((++ATUALIZACAO))
+				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
 	else
-		if [ -e .backup/Público ]; then
-			QUANTIDADE_ITENS=$(ls .backup/Público | wc -l)
+		if [ -e $BACKUP/Público ]; then
+			QUANTIDADE_ITENS=$(ls $BACKUP/Público | wc -l)
 			if [ $QUANTIDADE_ITENS -gt 0 ]; then
-				rm -rf .backup/Público
+				rm -rf $BACKUP/Público
 			fi
 		fi
-		ATUALIZACAO=$((++ATUALIZACAO))
+		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
-	if [ $ATUALIZACAO -eq 11 ]; then
+	if [ $SEM_ATUALIZACAO -eq 11 ]; then
 		kdialog --title "$TITULO" --msgbox "Nenhuma atualização" &
 		exit
 	fi
@@ -304,7 +304,7 @@ function log_de_backup {
 	cd ~/Área\ de\ Trabalho
 	cria_diretorio_de_log
 	echo -n "Tamanho total: " 1> .logs/$NOME_ARQUIVO
-	du -sh ~/.backup 1>> .logs/$NOME_ARQUIVO
+	du -sh $BACKUP 1>> .logs/$NOME_ARQUIVO
 	echo -n "Último backup: " 1>> .logs/$NOME_ARQUIVO
 	date 1>> .logs/$NOME_ARQUIVO
 }
