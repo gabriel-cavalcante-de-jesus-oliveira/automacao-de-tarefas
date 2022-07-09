@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Diretório oculto, para o usuário não remover por engano
 function cria_diretorio_de_backup {
 	cd ~
 	if [ ! -e $BACKUP ]; then
@@ -24,7 +25,7 @@ function novo_backup {
 	# Vídeos
 	# Público
 
-	## Caminhos relativos ##
+	## Paths resumidos ##
 	BACKUP=~/.backup
 	GITCONFIG=~/.gitconfig
 	SSH=~/.ssh
@@ -38,6 +39,7 @@ function novo_backup {
 	VIDEOS=~/Vídeos
 	PUBLICO=~/Público
 
+	# Verifica se há atualização no arquivo oculto em questão, caso afirmativo, realiza uma cópia de segurança
 	if [ -e $GITCONFIG ]; then
 		if [ ! -e $BACKUP/.gitconfig ]; then
 			cp -rf $GITCONFIG $BACKUP
@@ -47,6 +49,8 @@ function novo_backup {
 				rm -f $BACKUP/.gitconfig
 				cp -rf $GITCONFIG $BACKUP
 			else
+				# Caso o valor da variável ao final das verificações de todos os itens seja 11 (total de itens analisados), significa
+				# que não houve atualizações, neste caso, não poderá prosseguir para atualização do log
 				SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 			fi
 		fi
@@ -57,6 +61,7 @@ function novo_backup {
 		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
+	# Verifica recursivamente se há atualização no diretório em questão, caso afirmativo, realiza uma cópia de segurança
 	QUANTIDADE_ITENS=$(ls $SSH | wc -l)
 	if [ $QUANTIDADE_ITENS -gt 0 ]; then
 		if [ ! -e $BACKUP/.ssh ]; then
@@ -287,6 +292,7 @@ function novo_backup {
 		SEM_ATUALIZACAO=$((++SEM_ATUALIZACAO))
 	fi
 
+	# Caso o valor da variável seja 11, significa que não houve atualização, então não prossegue para atualização do log
 	if [ $SEM_ATUALIZACAO -eq 11 ]; then
 		kdialog --title "$TITULO" --msgbox "Nenhuma atualização" &
 		exit
@@ -299,6 +305,7 @@ function cria_diretorio_de_log {
 	fi
 }
 
+# Cónteudo do log: espaço total de armazenamento que ocupa o diretório de backup e data do último backup realizado
 function log_de_backup {
 	NOME_ARQUIVO="backup.txt"
 	cd ~/Área\ de\ Trabalho
