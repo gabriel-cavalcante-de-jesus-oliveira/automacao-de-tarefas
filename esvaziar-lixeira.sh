@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Remove todos os itens da lixeira de forma mais rápida e prática, através de duplo-clique sobre este script (desde que tenha permissão de execução)
+
+# Só remove os itens da lixeira, caso haja algum
 function verifica_se_tem_lixo {
 	QUANTIDADE_ITENS=$(ls ~/.local/share/Trash/files | wc -l)
 	if [ $QUANTIDADE_ITENS -eq 0 ]; then
@@ -14,6 +17,7 @@ function cria_diretorio_de_logs {
 	fi
 }
 
+# Só atualiza o log, caso haja a remoção de algum item da lixeira
 function log_de_arquivos_removidos {
 	cd $LIXEIRA
 	cria_diretorio_de_logs
