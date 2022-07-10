@@ -2,7 +2,7 @@
 # Data de criação: 02/04/2022
 
 # Realiza uma cópia de segurança de todos os diretórios e arquivos do usuário especificados ou qualquer que desejar (editando o script) para o diretório oculto
-# ".backup" que ele cria em "/home/nome-do-usuario". Caso não consiga localizar, basta executar o script "compactar-backup.sh", que ele compacta e compila todo o
+# ".backup" que ele cria em "/home/nome-do-usuario". Caso não consiga localizar, basta executar o script "compactar-backup.sh", que ele compacta e comprime todo o
 # conteúdo do diretório ".backup", gerando o arquivo "backup.zip" e movendo-o para a sua área de trabalho
 
 # Diretório oculto, para o usuário não remover por engano
